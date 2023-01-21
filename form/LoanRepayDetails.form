@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "Enter Loan Repay Amount",
+      "type": "textfield",
+      "id": "Field_1dqgv5r",
+      "key": "rpyAmt",
+      "validate": {
+        "required": true,
+        "pattern": "^[0-9]"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_1tis9xt",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.7.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 6
+}

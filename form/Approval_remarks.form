@@ -1,0 +1,25 @@
+{
+  "components": [
+    {
+      "label": "Remarks",
+      "type": "textfield",
+      "id": "Field_1wcn6ru",
+      "key": "approval_remark",
+      "description": "Manager Remarks for the approval",
+      "validate": {
+        "pattern": "Approved",
+        "required": true
+      },
+      "defaultValue": "Approved"
+    }
+  ],
+  "type": "default",
+  "id": "Form_128kbp4",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.6.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 5
+}

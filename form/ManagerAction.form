@@ -1,0 +1,33 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Approve",
+          "value": "true"
+        },
+        {
+          "label": "Reject",
+          "value": "false"
+        }
+      ],
+      "label": "Manager's Action",
+      "type": "radio",
+      "id": "Field_1hfcqvf",
+      "key": "mngrAct",
+      "defaultValue": "1",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0srwr5f",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.7.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 6
+}

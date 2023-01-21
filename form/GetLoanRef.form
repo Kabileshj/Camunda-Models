@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "Please Enter Loan Reference to get Loan Details",
+      "type": "textfield",
+      "id": "Field_0u6856c",
+      "key": "loanRef",
+      "validate": {
+        "required": true,
+        "pattern": "^[0-9]"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_12pqlah",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.7.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 6
+}

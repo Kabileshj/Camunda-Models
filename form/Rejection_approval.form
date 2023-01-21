@@ -1,0 +1,25 @@
+{
+  "components": [
+    {
+      "label": "Remarks",
+      "type": "textfield",
+      "id": "Field_18h63x7",
+      "key": "rejection_remark",
+      "description": "Manager Remarks for the rejection",
+      "defaultValue": "Rejected",
+      "validate": {
+        "required": true,
+        "pattern": "Rejected"
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_1iohyqr",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.6.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 5
+}

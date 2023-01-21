@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1lrjqpo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.6.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="Process_0qhs14p" name="Apply Credit Card" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0jb4kb9" sourceRef="StartEvent_1" targetRef="Activity_0xqtz4t" />
+    <bpmn:sequenceFlow id="Flow_0uvzbck" sourceRef="Activity_0xqtz4t" targetRef="Gateway_11yrtr8" />
+    <bpmn:userTask id="Activity_0rnqto9" name="Background verification" camunda:formRef="Form_0tz0noy" camunda:formRefBinding="deployment">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_02466b0</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kkjkt1</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="Activity_0xqtz4t" name="Verify the document" scriptFormat="groovy">
+      <bpmn:incoming>Flow_0jb4kb9</bpmn:incoming>
+      <bpmn:outgoing>Flow_0uvzbck</bpmn:outgoing>
+      <bpmn:script>println "Document verified"
+execution.setVariable('doc_verified', true)</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Activity_1bgjvwb" name="Credit check" camunda:delegateExpression="${creditCheckDelegate}">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1i9h9c4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0zcydqr</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0zcydqr" sourceRef="Activity_1bgjvwb" targetRef="Activity_1ew8gqe" />
+    <bpmn:userTask id="Activity_1ew8gqe" name="Manager Approval" camunda:formRef="Form_128kbp4" camunda:formRefBinding="deployment">
+      <bpmn:incoming>Flow_0zcydqr</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ytpefn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_0n8kor4" name="Credit Card Request Approved">
+      <bpmn:incoming>Flow_1ytpefn</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1ytpefn" sourceRef="Activity_1ew8gqe" targetRef="Event_0n8kor4" />
+    <bpmn:startEvent id="StartEvent_1" name="Credit Card Request">
+      <bpmn:outgoing>Flow_0jb4kb9</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0ium0ri" messageRef="Message_09hpqvo" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_02466b0" name="Verified" sourceRef="Gateway_11yrtr8" targetRef="Activity_0rnqto9">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">${doc_verified} == true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="Gateway_11yrtr8" name="Document Verification Update">
+      <bpmn:incoming>Flow_0uvzbck</bpmn:incoming>
+      <bpmn:outgoing>Flow_02466b0</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1ask2et</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="Gateway_023unvs" name="Background Verification Update">
+      <bpmn:incoming>Flow_0kkjkt1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1i9h9c4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0jstews</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1i9h9c4" name="Verified" sourceRef="Gateway_023unvs" targetRef="Activity_1bgjvwb">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">${bg_verified} == true</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0jstews" name="Not Verified" sourceRef="Gateway_023unvs" targetRef="Activity_1ryis0m">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">${bg_verified} == false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1ask2et" name="Not Verified" sourceRef="Gateway_11yrtr8" targetRef="Activity_1ryis0m">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="groovy">${doc_verified} == false</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_0kkjkt1" sourceRef="Activity_0rnqto9" targetRef="Gateway_023unvs" />
+    <bpmn:userTask id="Activity_1ryis0m" name="Manager Rejection" camunda:formRef="Form_1iohyqr" camunda:formRefBinding="deployment">
+      <bpmn:incoming>Flow_0jstews</bpmn:incoming>
+      <bpmn:incoming>Flow_1ask2et</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vsg1tl</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_09wvk48" name="Credit Card Request Rejected">
+      <bpmn:incoming>Flow_0vsg1tl</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0vsg1tl" sourceRef="Activity_1ryis0m" targetRef="Event_09wvk48" />
+  </bpmn:process>
+  <bpmn:message id="Message_09hpqvo" name="apply_credit_card" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0qhs14p">
+      <bpmndi:BPMNShape id="Activity_0l4wbq4_di" bpmnElement="Activity_0rnqto9">
+        <dc:Bounds x="480" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0lnjn02_di" bpmnElement="Activity_0xqtz4t">
+        <dc:Bounds x="240" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17pw6dl_di" bpmnElement="Activity_1bgjvwb">
+        <dc:Bounds x="620" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1vbhq4u_di" bpmnElement="Activity_1ew8gqe">
+        <dc:Bounds x="770" y="110" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0n8kor4_di" bpmnElement="Event_0n8kor4">
+        <dc:Bounds x="912" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="906" y="175" width="57" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1mq3e4q_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="172" y="132" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="161" y="103.5" width="57" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1pt9doq_di" bpmnElement="Gateway_11yrtr8" isMarkerVisible="true">
+        <dc:Bounds x="375" y="125" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="373.5" y="84" width="53" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_023unvs_di" bpmnElement="Gateway_023unvs" isMarkerVisible="true">
+        <dc:Bounds x="645" y="245" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="640.5" y="305" width="59" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0gl8r6g_di" bpmnElement="Activity_1ryis0m">
+        <dc:Bounds x="770" y="330" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_09wvk48_di" bpmnElement="Event_09wvk48">
+        <dc:Bounds x="912" y="352" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="888" y="395" width="88" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0jb4kb9_di" bpmnElement="Flow_0jb4kb9">
+        <di:waypoint x="208" y="150" />
+        <di:waypoint x="240" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0uvzbck_di" bpmnElement="Flow_0uvzbck">
+        <di:waypoint x="340" y="150" />
+        <di:waypoint x="375" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zcydqr_di" bpmnElement="Flow_0zcydqr">
+        <di:waypoint x="720" y="150" />
+        <di:waypoint x="770" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ytpefn_di" bpmnElement="Flow_1ytpefn">
+        <di:waypoint x="870" y="150" />
+        <di:waypoint x="912" y="150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_02466b0_di" bpmnElement="Flow_02466b0">
+        <di:waypoint x="425" y="150" />
+        <di:waypoint x="480" y="150" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="429" y="136" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i9h9c4_di" bpmnElement="Flow_1i9h9c4">
+        <di:waypoint x="670" y="245" />
+        <di:waypoint x="670" y="190" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="630" y="217" width="36" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jstews_di" bpmnElement="Flow_0jstews">
+        <di:waypoint x="695" y="270" />
+        <di:waypoint x="820" y="270" />
+        <di:waypoint x="820" y="330" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="728" y="256" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ask2et_di" bpmnElement="Flow_1ask2et">
+        <di:waypoint x="400" y="175" />
+        <di:waypoint x="400" y="390" />
+        <di:waypoint x="770" y="390" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="561" y="376" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kkjkt1_di" bpmnElement="Flow_0kkjkt1">
+        <di:waypoint x="530" y="190" />
+        <di:waypoint x="530" y="270" />
+        <di:waypoint x="645" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vsg1tl_di" bpmnElement="Flow_0vsg1tl">
+        <di:waypoint x="870" y="370" />
+        <di:waypoint x="912" y="370" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

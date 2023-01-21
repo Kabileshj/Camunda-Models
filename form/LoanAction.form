@@ -1,0 +1,37 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Create Loan",
+          "value": "1"
+        },
+        {
+          "label": "Repay Loan",
+          "value": "2"
+        },
+        {
+          "label": "View Loan Details",
+          "value": "3"
+        },
+        {
+          "label": "View Loan List",
+          "value": "4"
+        }
+      ],
+      "label": "Choose Action to proceed",
+      "type": "radio",
+      "id": "Field_1tajn6o",
+      "key": "action"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1uk4vvp",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.7.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 6
+}
