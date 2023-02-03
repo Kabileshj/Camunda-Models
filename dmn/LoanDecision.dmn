@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_156p0uh" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <decision id="Decision_1ekh5rk" name="Decision for Loan Eligibility">
+    <informationRequirement id="InformationRequirement_0s7wpqb">
+      <requiredInput href="#InputData_1m7ddlq" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0dqaf1x">
+      <input id="Input_1" label="Cibil Score" camunda:inputVariable="cibilScore">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>cibilScore</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" name="Verified" typeRef="boolean" />
+      <rule id="DecisionRule_0fb2cau">
+        <inputEntry id="UnaryTests_0ye96bh">
+          <text>&gt;60</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16f3g8b">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fpde21">
+        <inputEntry id="UnaryTests_0ov8tb6">
+          <text>&lt;=60</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kap8ae">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1m7ddlq" name="Input Cibil Score" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_1ekh5rk">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0dlc61k" dmnElementRef="InputData_1m7ddlq">
+        <dc:Bounds height="45" width="125" x="187" y="238" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_05lth23" dmnElementRef="InformationRequirement_0s7wpqb">
+        <di:waypoint x="250" y="238" />
+        <di:waypoint x="250" y="180" />
+        <di:waypoint x="250" y="160" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
