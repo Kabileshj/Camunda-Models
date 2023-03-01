@@ -4,7 +4,7 @@
     <bpmn:subProcess id="Activity_1ln42vc">
       <bpmn:incoming>Flow_1ox0g7f</bpmn:incoming>
       <bpmn:outgoing>Flow_13kvrkr</bpmn:outgoing>
-      <bpmn:userTask id="Activity_0pi0c6i" name="Choose Action" camunda:formRef="Form_1uk4vvp" camunda:formRefBinding="deployment" camunda:assignee="demo">
+      <bpmn:userTask id="Activity_0pi0c6i" name="Choose Action" camunda:formRef="Form_1uk4vvp" camunda:formRefBinding="deployment">
         <bpmn:incoming>Flow_19xc7dl</bpmn:incoming>
         <bpmn:outgoing>Flow_16e0di1</bpmn:outgoing>
       </bpmn:userTask>
